@@ -1,6 +1,7 @@
 Vagrant.configure(2) do |config|
 
   config.vm.box = "centos64"
+  config.vm.box_url = "https://github.com/2creatives/vagrant-centos/releases/download/v6.4.2/centos64-x86_64-20140116.box"
 
   config.vbguest.auto_update = false
 
