@@ -8,6 +8,7 @@ Vagrant.configure(2) do |config|
   config.omnibus.chef_version = :latest
 
   config.vm.network :forwarded_port, guest: 80, host: 8000
+  config.vm.network :forwarded_port, guest: 5601, host: 5601
   config.vm.network :forwarded_port, guest: 9200, host: 9200
   config.vm.synced_folder ".", "/vagrant", owner: 'vagrant', group: 'vagrant', mount_options: ['dmode=777', 'fmode=666']
   
