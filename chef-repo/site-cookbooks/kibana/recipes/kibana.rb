@@ -1,13 +1,13 @@
+package "wget"
+
 ## directory
-directory '/var/www/html' do
+directory '/var/log/kibana/' do
   owner 'root'
   group 'root'
   mode '0777'
   action :create
   recursive true
 end
-
-package "wget"
 
 ## kibana install
 bash "kibana" do
@@ -21,15 +21,21 @@ bash "kibana" do
   EOH
 end
 
-# cookbook_file '/etc/init.d/kibana' do
-#   source "kibana"
-#   mode "0755"
-# end
+cookbook_file '/etc/init.d/kibana' do
+  source "kibana"
+  mode "0755"
+end
 
-# ## kibana config setting
-# template "/var/www/html/kibana/config.js" do
-#   source "config.js.erb"
-#   owner "root"
-#   group "root"
-#   mode 0777
-# end
+bash 'replace kibana new line' do
+  action :run
+  cwd '/etc/init.d'
+  code <<-EOH
+sudo sed -i 's/\r//' kibana
+  EOH
+end
+
+execute "add_kibana_service" do
+  user "root"
+  command  "chkconfig kibana on"
+  action :run
+end
